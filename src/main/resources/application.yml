@@ -1,0 +1,35 @@
+server:
+  port: 9000
+  error:
+    include-stacktrace: never
+    whitelabel:
+      enabled: false
+
+spring:
+  application:
+    name: kinopoisk-parser-client
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  thymeleaf:
+    cache: false
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        web: INFO
+
+cache:
+  update:
+    cron: "0 0 0 * * ?"
+
+film:
+  show:
+    count: 15
