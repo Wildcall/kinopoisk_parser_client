@@ -15,13 +15,14 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>Client for kinopoisk parser</name>
     <description>Kinopoisk parser data display application</description>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring.boot.maven.plugin.version>2.6.6</spring.boot.maven.plugin.version>
+        <start-class>ru.malygin.parser_client.KinopoiskParserClientApplication</start-class>
     </properties>
 
     <dependencies>
@@ -69,15 +70,51 @@
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring.boot.maven.plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.6.6</version>
+            </plugin>
+            <plugin>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.12.1</version>
+                <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <nodeVersion>v16.15.0</nodeVersion>
+                            <npmVersion>8.5.5</npmVersion>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm install</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>npm build</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>run build</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
