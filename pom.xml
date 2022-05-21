@@ -11,10 +11,15 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.malygin</groupId>
+
     <artifactId>kinopoisk_parser_client</artifactId>
+
     <version>0.0.1-SNAPSHOT</version>
+
     <name>Client for kinopoisk parser</name>
+
     <description>Kinopoisk parser data display application</description>
+
     <packaging>jar</packaging>
 
     <properties>
@@ -55,12 +60,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,9 +71,15 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.springframework.boot</groupId>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.6.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>com.github.eirslett</groupId>
