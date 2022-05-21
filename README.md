@@ -18,13 +18,13 @@
 
 Compile and package project with maven:
 
-```cd path-to-project | mvn clean package spring-boot:repack```
+```cd path-to-project | mvn clean package repack```
 
 After a successful build, you can run the application:
 
 ```
 cd ../target
-java -jar -DSERVER_PORT=9000 -DDATABASE_URL=jdbc:postgresql://localhost:5432/kinopoisk_data -DDATABASE_USERNAME=searcher_user -DDATABASE_PASSWORD=searcher_password -DSHOW_FILM_COUNT=10 -DCACHE_UPDATE_TIME=*/10 * * * * ? .\kinopoisk_parser_client-0.0.1-SNAPSHOT.jar ```
+java -jar -DSERVER_PORT=9000 -DDATABASE_URL=jdbc:postgresql://localhost:5432/kinopoisk_data -DDATABASE_USERNAME=searcher_user -DDATABASE_PASSWORD=searcher_password -DSHOW_FILM_COUNT=10 -DCACHE_UPDATE_TIME='*/10 * * * * ?' .\kinopoisk_parser_client-0.0.1-SNAPSHOT.jar ```
 ```
 
 Open in browser http://localhost:9000 
