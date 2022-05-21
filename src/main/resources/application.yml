@@ -28,8 +28,8 @@ logging:
 
 cache:
   update:
-    cron: "0 0 0 * * ?"
+    cron: ${CACHE_UPDATE_TIME}
 
 film:
   show:
-    count: 15
+    count: ${SHOW_FILM_COUNT}
