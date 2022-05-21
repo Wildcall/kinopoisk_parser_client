@@ -1,5 +1,8 @@
 <template>
   <v-app>
+    {{ mainStore.getYears }}
+    {{ mainStore.getMonths(2022) }}
+    {{ mainStore.getDays(2022, 4) }}
     <v-app-bar
         app
         class="d-flex justify-center"
@@ -17,20 +20,20 @@
           <v-col cols="3">
             <v-card>
               <v-card-title class="text-start">
-            <span style="color:#263238">
-              Выберите дату: </span>
+                <span style="color:#263238">
+                  Выберите дату: </span>
               </v-card-title>
               <v-card-text>
                 <v-select
                     v-model="year"
-                    :items="years"
+                    :items="mainStore.getYears"
                     label="Год"
                     dense
                     outlined
                 />
                 <v-select
                     v-model="month"
-                    :items="months(this.year)"
+                    :items="mainStore.getMonths(this.year)"
                     label="Месяц"
                     dense
                     outlined
@@ -38,7 +41,7 @@
                 />
                 <v-select
                     v-model="day"
-                    :items="days(this.year, this.month)"
+                    :items="mainStore.getDays(this.year, this.month)"
                     label="День"
                     dense
                     outlined
@@ -50,7 +53,7 @@
                     :disabled="!day || !month || !year"
                     text
                     color="#263238"
-                    @click="fetchFilm"
+                    @click="showFilms"
                 >
                   Показать
                 </v-btn>
@@ -63,15 +66,9 @@
                 Топ фильмов на {{ day }}-{{ month }}-{{ year }}
               </v-card-title>
             </v-card>
-            <v-card v-if="!this.films(year, month, day)">
-              <v-card-text>
-                No films were found on this date...
-              </v-card-text>
-            </v-card>
             <FilmInfo
-                v-else
                 class="mb-4"
-                v-for="film in this.films(year, month, day)"
+                v-for="film in this.mainStore.getFilms(this.year, this.month, this.day)"
                 :key="film.pos"
                 :film="film"
             />
@@ -82,57 +79,51 @@
   </v-app>
 </template>
 
-<script>
-
-import {mapActions, mapGetters} from "vuex";
+<script lang="js">
 import FilmInfo from "./component/FilmInfo.vue";
+import {useStore} from "./store/store";
 
 export default {
   components: {FilmInfo},
+
+  setup() {
+    const mainStore = useStore()
+
+    return {
+      mainStore
+    }
+  },
 
   data: () => ({
     year: null,
     month: null,
     day: null,
+    dates: dates
   }),
 
-  computed: {
-    ...mapGetters({
-      films: 'film/getFilms',
-      years: 'date/getYears',
-      months: 'date/getMonths',
-      days: 'date/getDays',
-      loading: 'date/getLoading',
-    }),
-  },
-
   methods: {
-    ...mapActions({
-      getDates: 'date/fetchAllAvailableDate',
-      fetchAllFilmByDate: 'film/fetchAllFilmByDate'
-    }),
-
-    fetchFilm() {
-      const date = {
-        year: this.year,
-        month: this.month,
-        day: this.day
-      }
-      this.fetchAllFilmByDate(date)
+    showFilms() {
+      this.mainStore.fetchFilms(this.year, this.month, this.day)
     }
   },
 
   mounted() {
-    this.getDates()
+    this.mainStore.data = dates.map((val => {
+      const arr = val.split('-')
+      const date = {
+        year: parseInt(arr[0]),
+        month: parseInt(arr[1]),
+        day: parseInt(arr[2]),
+      }
+      return {
+        date: date,
+        films: []
+      }
+    }))
     const date = new Date()
     this.year = date.getFullYear()
     this.month = date.getMonth() + 1
     this.day = date.getDate()
-    this.fetchAllFilmByDate({
-      year: this.year,
-      month: this.month,
-      day: this.day
-    })
   }
 }
 </script>

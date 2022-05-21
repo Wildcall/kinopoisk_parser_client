@@ -1,5 +1,6 @@
 package ru.malygin.parser_client.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -10,6 +11,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.*;
+import java.io.IOException;
+
+@Slf4j
 @Configuration
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
@@ -25,5 +30,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceHandler("/js/**")
                 .addResourceLocations("classpath:/static/js/");
     }
-
 }
